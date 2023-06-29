@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Assess Login</title>
+        <link rel="shortcut icon" href="../images/assess icon.png" type="image/x-icon">
+        <link href="css/styles.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="bg-dark anime-section">
+
+           
+  <div class="obj-anime" style="  background-color: rgba(20, 83, 255, 0.705);">&nbsp;</div>
+  <div class="obj-anime" style="  background-color: rgba(255, 20, 157, 0.726);">&nbsp;</div>
+  <div class="obj-anime" style="  background-color: rgba(20, 255, 32, 0.719);">&nbsp;</div>
+  <div class="obj-anime" style="  background-color: rgba(255, 67, 20, 0.623);">&nbsp;</div>
+  <div class="obj-anime" style="  background-color: rgba(20, 255, 98, 0.678);">&nbsp;</div>
+  <div class="obj-anime" style="  background-color: rgba(255, 251, 20, 0.699);">&nbsp;</div>
+
+        <div id="layoutAuthentication">
+            <div id="layoutAuthentication_content">
+                <main>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-5 py-4">
+                                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                    <div class="card-header" style="background-color: #280676;"><h3 class="text-center font-weight-light my-2">
+                                        <img src="../images/logo2.png" alt="">
+                                    </h3></div>
+                                    <div class="card-body">
+                                        <form id="login_form" action="../codeengine.html" method="POST">
+                                            <input type="hidden" name="mode" value="login">
+                                            <div class="form-group"><label class="small mb-1" for="uname">User</label><input
+                                                    class="form-control py-4" id="uname" name="loginName" type="text" placeholder="Enter username" required /></div>
+                                            <div class="form-group"><label class="small mb-1" for="inputPassword">Password</label><input
+                                                    class="form-control py-4" id="inputPassword" type="password" name="loginPassword" placeholder="Enter password" required /></div>
+                                            <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                <button type="submit" class="btn btn-primary btn-block py-3" >Admin Login</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            
+        </div>
+
+        <div id="messagedisplay" style="position:fixed;bottom:20px;right:10px;z-index:2950;">
+            <!-- <div class="alert alert-danger alert-dismissible " role="alert"  >
+                A simple success alert—check it out!
+                <button type="button" class="close " data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div> -->
+          
+          </div>
+
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <!-- anime plugin -->
+        <script src="../plugins/anime/anime.3.0.0-alpha.js"></script>
+        <script src="js/scripts.js"></script>
+
+        <script>
+
+            $(document).ready(function(){
+
+                $("#login_form").on("submit",function(e){
+                    e.preventDefault();
+
+                    $.ajax({
+                        url: "../codeengine.html",
+                        type: "POST",
+                        data:  new FormData(this),
+                        contentType: false,
+                        cache: false,
+                        processData:false,
+                        success: function(data){
+                                
+                                data = jQuery.parseJSON(data);
+
+                                if(data.mode == 'ok'){
+                                    window.location.href = "index.html";
+                                }else{
+                                    $('#messagedisplay').append(''+
+                                    '<div class="alert alert-danger alert-dismissible fade show" role="alert"  >'+
+                                        data.msg+
+                                        '<button type="button" class="close " data-dismiss="alert" aria-label="Close">'+
+                                        '<span aria-hidden="true">&times;</span>'+
+                                        '</button>'+
+                                    '</div>');
+                                }
+
+                            $('#messagedisplay .alert').delay(5000).slideUp(200, function() {
+                                    $(this).alert('close');
+                                });
+
+                                $("#enquiry_form")[0].reset();
+                                $('#signupModal').modal('hide');
+                                
+                        },
+                        error: function(){
+                        console.log('not OK BROW');
+                        } 	        
+                    });
+
+                 });
+
+
+                 
+
+                function randomValues() {
+
+                anime({
+                targets: '.anime-section  div.obj-anime:nth-child('+anime.random(1,6)+')',
+                translateX: function() {
+                    return anime.random(0, window.outerWidth);
+                },
+                translateY: function() {
+                    return anime.random(0, document.querySelector(".anime-section").clientHeight);
+                },
+                rotate:function(){
+                    return anime.random(0, 360);
+                },
+                scale:function(){
+                    return anime.random(-5, 5);
+                },
+                easing: 'easeOutExpo',
+                duration: 5000,
+                complete: randomValues,
+                
+                });
+                }
+
+                randomValues();
+            });
+        </script>
+
+    </body>
+</html>
